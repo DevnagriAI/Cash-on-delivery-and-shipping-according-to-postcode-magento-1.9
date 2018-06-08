@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Dakshashop
+ * @package    Fourtek_Postcode
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Fourtek_Postcode>
+            <version>0.1.0</version>
+        </Fourtek_Postcode>
+    </modules>
+    <frontend>
+        <routers>
+            <postcode>
+                <use>standard</use>
+                <args>
+                    <module>Fourtek_Postcode</module>
+                    <frontName>postcode</frontName>
+                </args>
+            </postcode>
+        </routers>
+        <layout>
+            <updates>
+                <postcode>
+                    <file>postcode.xml</file>
+                </postcode>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<postcode>
+				<use>admin</use>
+				<args>
+					<module>Fourtek_Postcode</module>
+					<frontName>postcode</frontName>
+				</args>
+			</postcode>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<postcode module="postcode">
+				<title>Postcode</title>
+				<sort_order>71</sort_order>               
+				<children>
+					<items module="postcode">
+						<title>Manage Items</title>
+						<sort_order>0</sort_order>
+						<action>postcode/adminhtml_postcode</action>
+					</items>
+				</children>
+			</postcode>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Fourtek_Postcode>
+							<title>Postcode Module</title>
+							<sort_order>10</sort_order>
+						</Fourtek_Postcode>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<postcode>
+					<file>postcode.xml</file>
+				</postcode>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+
+<events>
+
+<sales_order_payment_cancel>
+			<observers>
+				<Fourtek_Postcode_Order_Cancelled>
+					<class>Fourtek_Postcode_Model_Observer</class>
+					<type>singleton</type>
+					<method>paymentCancel</method>
+				</Fourtek_Postcode_Order_Cancelled>
+			</observers>
+</sales_order_payment_cancel>
+<sales_order_invoice_register>
+                <observers>
+                    <Fourtek_Postcode_Invoice_Sent>
+                        <type>singleton</type>
+                        <class>Fourtek_Postcode_Model_Observer</class>
+                        <method>salesOrderInvoicePay</method>
+                    </Fourtek_Postcode_Invoice_Sent>
+                </observers>
+</sales_order_invoice_register>
+<sales_order_shipment_save_after>
+                <observers>
+                    <Fourtek_Postcode_Shipment_Saved>
+                        <type>singleton</type>
+                        <class>Fourtek_Postcode_Model_Observer</class>
+                        <method>salesOrderShipmentSaveAfter</method>
+                    </Fourtek_Postcode_Shipment_Saved>
+                </observers>
+</sales_order_shipment_save_after>
+
+<sales_order_creditmemo_save_after>
+                <observers>
+                    <Fourtek_Postcode_creditmemo_Saved>
+                        <type>singleton</type>
+                        <class>Fourtek_Postcode_Model_Observer</class>
+                        <method>creditmemoSaveAfter</method>
+                    </Fourtek_Postcode_creditmemo_Saved>
+                </observers>
+</sales_order_creditmemo_save_after>
+
+        
+            
+    </events>
+
+
+        <models>
+            <postcode>
+                <class>Fourtek_Postcode_Model</class>
+                <resourceModel>postcode_mysql4</resourceModel>
+            </postcode>
+            <postcode_mysql4>
+                <class>Fourtek_Postcode_Model_Mysql4</class>
+                <entities>
+                    <postcode>
+                        <table>postcode</table>
+                    </postcode>
+                </entities>
+            </postcode_mysql4>
+        </models>
+        <resources>
+            <postcode_setup>
+                <setup>
+                    <module>Fourtek_Postcode</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </postcode_setup>
+            <postcode_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </postcode_write>
+            <postcode_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </postcode_read>
+        </resources>
+        <blocks>
+            <postcode>
+                <class>Fourtek_Postcode_Block</class>
+            </postcode>
+        </blocks>
+        <helpers>
+            <postcode>
+                <class>Fourtek_Postcode_Helper</class>
+            </postcode>
+        </helpers>
+    </global>
+</config>

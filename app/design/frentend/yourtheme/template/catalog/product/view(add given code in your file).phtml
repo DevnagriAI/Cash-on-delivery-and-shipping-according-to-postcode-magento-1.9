@@ -1,0 +1,44 @@
+<!-------------pincode------------>
+<div class="postcode">
+<h4 style="margin-bottom: 8px;">Check Delivery</h4>
+<input name="postcode" id="postcode" class="form-control" autocomplete="off"  placeholder="Enter Delivery Pincode"/>
+<input type="button" id="sub" value="Check" onclick="myfiled()" class="button" />
+<span id="showrepanse"></span>
+<span style="display: none;" id="billing-please-wait" class="please-wait">
+<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/accessshop/default/images/opc-ajax-loader.gif" alt="Processing Request..." title="Processing Request" ></span>
+<script type="text/javascript">
+function myfiled(){
+var postcode=document.getElementById("postcode").value;
+if(postcode==''){alert("Please enter pincode"); return false;}
+jQuery('.please-wait').show();	
+
+			if(postcode!="" ){
+	
+				new Ajax.Request("<?php echo $this->getUrl('postcode/index/pincode') ?>", {
+					   method: 'Post',
+					   parameters: {postcode:postcode},
+					   onComplete: function(transport) {
+						 			jQuery('.please-wait').hide();	   
+                                             var timeslotObj = jQuery('#showrepanse'); 
+											 
+                                           timeslotObj = jQuery(timeslotObj).html(transport.responseText);
+						 
+						  if(transport.responseText==""){
+						   
+							   
+							   document.getElementById("myboxbutton").innerHTML="Session timed out please try again.";
+						   }else{
+								document.getElementById("myboxbutton").innerHTML=transport.responseText;
+							}
+					   }
+				   });
+					
+				
+			}else{
+				document.getElementById("postcodeerror").innerHTML="please enter valid card number";
+			}
+		
+	}
+</script>
+</div>
+<!---------------Pincode----------------> 
